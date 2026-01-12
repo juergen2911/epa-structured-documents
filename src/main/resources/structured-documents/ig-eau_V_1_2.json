@@ -1,0 +1,27 @@
+{
+  "name": "eAU Implementation Guide",
+  "version": "1.2",
+  "description": "Implementation guide for electronic sickness certificate (eAU)",
+  "validFrom": "2024-01-01",
+  "validTo": null,
+  "formatCode": {
+    "code": "urn:gematik:ig:eau:v1.2",
+    "system": "urn:gematik:ig",
+    "display": "eAU v1.2"
+  },
+  "classCode": {
+    "code": "ADM",
+    "system": "urn:oid:1.2.276.0.76.5.512",
+    "display": "Administrative Dokumente"
+  },
+  "typeCode": {
+    "code": "11488-4",
+    "system": "http://loinc.org",
+    "display": "Consultation note"
+  },
+  "mimeType": "application/fhir+xml",
+  "metadata": {
+    "profile": "https://gematik.de/fhir/StructureDefinition/eAU",
+    "fhirVersion": "4.0.1"
+  }
+}
