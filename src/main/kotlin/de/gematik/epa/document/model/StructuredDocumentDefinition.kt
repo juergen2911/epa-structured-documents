@@ -2,6 +2,7 @@ package de.gematik.epa.document.model
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.jboss.logging.Logger
 import java.time.LocalDate
 
 /**
@@ -35,6 +36,10 @@ data class StructuredDocumentDefinition(
     @JsonProperty("metadata")
     val metadata: Map<String, Any>? = null
 ) {
+    companion object {
+        private val logger = Logger.getLogger(StructuredDocumentDefinition::class.java)
+    }
+    
     /**
      * Checks if this definition is valid at a given date
      */
@@ -51,7 +56,8 @@ data class StructuredDocumentDefinition(
     private fun parseDate(dateString: String): LocalDate? {
         return try {
             LocalDate.parse(dateString)
-        } catch (e: Exception) {
+        } catch (e: java.time.format.DateTimeParseException) {
+            logger.warn("Failed to parse date: $dateString", e)
             null
         }
     }

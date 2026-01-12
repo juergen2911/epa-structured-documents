@@ -24,7 +24,6 @@ dependencies {
     
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("io.quarkus:quarkus-kotlin")
     
     // Jackson for JSON processing
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")

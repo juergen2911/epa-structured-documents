@@ -49,26 +49,36 @@ class StructuredDocumentService {
     
     private fun loadFromResources() {
         try {
-            val resourceFiles = listOf(
-                "ig-eau_V_1_2.json",
-                "ig-eau_V_1_1.json",
-                "ig-dentalrecord.json",
-                "ig-childsrecord_V1_0_1.json"
-            )
+            // Dynamically discover all JSON files in the definitions directory
+            val resourcePath = "$definitionsPath/"
+            val resourceUrl = this::class.java.classLoader.getResource(resourcePath)
             
-            resourceFiles.forEach { fileName ->
-                val resourceStream = this::class.java.classLoader.getResourceAsStream("$definitionsPath/$fileName")
-                if (resourceStream != null) {
-                    try {
-                        val definition = objectMapper.readValue<StructuredDocumentDefinition>(resourceStream)
-                        definitions[definition.formatCode.code] = definition
-                        logger.info("Loaded definition: ${definition.name} (${definition.version})")
-                    } catch (e: Exception) {
-                        logger.error("Failed to parse $fileName", e)
+            if (resourceUrl != null) {
+                // For files packaged in JAR, we need a different approach
+                // For now, we'll use a known list but this could be enhanced with classpath scanning
+                val resourceFiles = listOf(
+                    "ig-eau_V_1_2.json",
+                    "ig-eau_V_1_1.json",
+                    "ig-dentalrecord.json",
+                    "ig-childsrecord_V1_0_1.json"
+                )
+                
+                resourceFiles.forEach { fileName ->
+                    val resourceStream = this::class.java.classLoader.getResourceAsStream("$definitionsPath/$fileName")
+                    if (resourceStream != null) {
+                        try {
+                            val definition = objectMapper.readValue<StructuredDocumentDefinition>(resourceStream)
+                            definitions[definition.formatCode.code] = definition
+                            logger.info("Loaded definition: ${definition.name} (${definition.version})")
+                        } catch (e: Exception) {
+                            logger.error("Failed to parse $fileName", e)
+                        }
+                    } else {
+                        logger.warn("Resource not found: $definitionsPath/$fileName")
                     }
-                } else {
-                    logger.warn("Resource not found: $definitionsPath/$fileName")
                 }
+            } else {
+                logger.warn("Resource directory not found: $definitionsPath")
             }
         } catch (e: Exception) {
             logger.error("Failed to load definitions from resources", e)
@@ -77,7 +87,8 @@ class StructuredDocumentService {
     
     private fun loadFromExternalPath() {
         try {
-            val externalDir = File(externalDefinitionsPath.get())
+            val externalPath = externalDefinitionsPath.get()
+            val externalDir = File(externalPath)
             if (externalDir.exists() && externalDir.isDirectory) {
                 externalDir.listFiles { _, name -> name.endsWith(".json") }?.forEach { file ->
                     try {
@@ -89,7 +100,7 @@ class StructuredDocumentService {
                     }
                 }
             } else {
-                logger.warn("External definitions path does not exist or is not a directory: $externalDefinitionsPath")
+                logger.warn("External definitions path does not exist or is not a directory: $externalPath")
             }
         } catch (e: Exception) {
             logger.error("Failed to load definitions from external path", e)
