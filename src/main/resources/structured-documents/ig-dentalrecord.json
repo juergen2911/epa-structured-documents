@@ -1,0 +1,27 @@
+{
+  "name": "Dental Record Implementation Guide",
+  "version": "1.0",
+  "description": "Implementation guide for dental records",
+  "validFrom": "2023-06-01",
+  "validTo": null,
+  "formatCode": {
+    "code": "urn:gematik:ig:dentalrecord",
+    "system": "urn:gematik:ig",
+    "display": "Dental Record"
+  },
+  "classCode": {
+    "code": "CLI",
+    "system": "urn:oid:1.2.276.0.76.5.512",
+    "display": "Klinische Dokumente"
+  },
+  "typeCode": {
+    "code": "34117-2",
+    "system": "http://loinc.org",
+    "display": "History and physical note"
+  },
+  "mimeType": "application/fhir+xml",
+  "metadata": {
+    "profile": "https://gematik.de/fhir/StructureDefinition/DentalRecord",
+    "fhirVersion": "4.0.1"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "Child's Record Implementation Guide",
+  "version": "1.0.1",
+  "description": "Implementation guide for children's health records (Kinderuntersuchungsheft)",
+  "validFrom": "2023-03-01",
+  "validTo": null,
+  "formatCode": {
+    "code": "urn:gematik:ig:childsrecord:v1.0.1",
+    "system": "urn:gematik:ig",
+    "display": "Child's Record v1.0.1"
+  },
+  "classCode": {
+    "code": "PRV",
+    "system": "urn:oid:1.2.276.0.76.5.512",
+    "display": "Präventionsdokumente"
+  },
+  "typeCode": {
+    "code": "11506-3",
+    "system": "http://loinc.org",
+    "display": "Progress note"
+  },
+  "mimeType": "application/fhir+xml",
+  "metadata": {
+    "profile": "https://gematik.de/fhir/StructureDefinition/ChildsRecord",
+    "fhirVersion": "4.0.1",
+    "targetAgeGroup": "0-18 years"
+  }
+}
