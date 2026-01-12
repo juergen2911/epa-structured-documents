@@ -4,15 +4,31 @@ Framework for structured document validation in the German electronic patient re
 
 ## Overview
 
-This Quarkus-based application provides REST APIs to validate DocumentEntry metadata objects against structured document definitions from Gematik.
+This Quarkus-based application provides REST APIs to validate DocumentEntry metadata objects against structured document definitions from Gematik. The system **dynamically extends value sets** by automatically registering codes from structured document definitions.
 
 ## Features
 
+- **Dynamic Code Extension**: Structured document definitions automatically extend FormatCode, ClassCode, and TypeCode value sets
+- **Two-Step Validation**: 
+  1. Validates formatCode exists (in standard codes or loaded definitions)
+  2. For structured documents, verifies date validity and ensures classCode/typeCode match the definition
 - **Type-safe Code Types**: Extensible sealed interfaces for FormatCode, ClassCode, and TypeCode
 - **Structured Document Validation**: Validates documents against official Gematik implementation guides
-- **Date-based Validation**: Checks if format codes are valid at specific dates
+- **Date-based Validation**: Checks if format codes are valid at specific dates (validFrom/validTo)
 - **Dynamic Configuration**: Supports loading custom document definitions at runtime
 - **REST API**: Simple HTTP endpoints for document validation
+
+## Key Validation Logic
+
+### For Documents with Structured Document Format Codes:
+1. **Format Code Validation**: Checks if the formatCode exists (standard or dynamically loaded)
+2. **Date Validation**: Verifies the document is valid at the validationDate based on validFrom/validTo
+3. **Class Code Matching**: Ensures the DocumentEntry's classCode matches the expected value in the structured document definition
+4. **Type Code Matching**: Ensures the DocumentEntry's typeCode matches the expected value in the structured document definition
+
+### For Documents with Standard Format Codes:
+- Validates that all codes (formatCode, classCode, typeCode) are registered
+- No structured document matching required
 
 ## Building
 
